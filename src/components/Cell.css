@@ -1,0 +1,29 @@
+.cell{
+    width: 60px;
+    height: 60px;
+    display: grid;
+    place-content: center;
+}
+.black-cell{
+    background-color: cornflowerblue;
+}
+.white-cell{
+    background-color: aliceblue;
+}
+ .cell .cellImage {
+    width: 60px;
+    height: 60px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 80%;
+}
+.cell .cellImage:hover {
+    cursor:grab;
+}
+.cell .cellImage:active {
+    cursor:grabbing;
+}
+
+.cell:active {
+    background-color: aquamarine;
+}

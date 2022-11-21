@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <h1>Chess Game</h1>
+  <section id="connect-form">
+    <div>
+      <button id="start-game">Start game</button>
+      <button id="join-game">Join game</button>
+    </div>
+  </section>
+
+  <section id="wait-message" hidden>
+    Waiting for the other player to join...
+  </section>
+
+  <section id="game-area" hidden>
+    <div id="board"></div>
+    <div id="status"></div>
+  </section>
+
+  <script src="main.js" type="module"></script>
+</body>
+</html>
