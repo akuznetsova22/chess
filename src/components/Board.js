@@ -2,6 +2,8 @@ import {useState, useRef} from 'react'
 import './Board.css'
 import Cell from './Cell'
 import Pieces from './Pieces'
+import Rules from './Rules'
+
 const size = 8;
 const cellSize = 60;
 
@@ -12,7 +14,7 @@ function Board(props){
     const [currPiece, setCurrPiece] = useState(null)
     const [currX, setCurrX] = useState(0);
     const [currY, setCurrY] = useState(0);
-
+    const rules = new Rules();
     const boardRef = useRef(null);
 
     function grab(e){
@@ -34,8 +36,16 @@ function Board(props){
             setPieces((newPieces) => {
                 const pieces = newPieces.map((piece) => {
                     if (piece.x === currX && piece.y === currY){
-                        piece.x = newX;
-                        piece.y = newY;
+                        console.log(rules.isValidMove(currX, currY, newX, newY, piece.type, piece.player)) 
+                        console.log(piece)                    
+                        if (rules.isValidMove(currX, currY, newX, newY, piece.type, piece.player)){
+                            piece.x = newX;
+                            piece.y = newY;
+                        } else {
+                            currPiece.style.position = 'relative';
+                            currPiece.style.removeProperty('top');
+                            currPiece.style.removeProperty('left');
+                        }
                     };
                     
                     return piece;
