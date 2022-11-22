@@ -6,8 +6,7 @@ import {Chess} from 'chess.js'
 
 function App() {
   const [game, setGame] = useState(new Chess());
-  console.log(game);
-
+ /*
   function updateGameState (modify){
     setGame((currGame) => {
       const newUpdate = {...currGame}
@@ -15,6 +14,7 @@ function App() {
       return newUpdate
     })
   }
+ 
   function computerMove(){
     const possibleMoves = game.move();
     if (possibleMoves.length === 0 || game.game_over()|| game.in_draw()){
@@ -41,7 +41,7 @@ function App() {
     //MAKE COMPUTER MOVE for COMPUTER GAME
     // setTimeout(computerMove, GIVEN INTERVAL)
     //WAIT FOR OTHER PLAYER IF 2 PEOPLE GAME
-  }
+  }*/
   return (
     <div className="App">
       <Board

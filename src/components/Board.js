@@ -2,6 +2,7 @@ import {useState, useRef} from 'react'
 import './Board.css'
 import Cell from './Cell'
 import Pieces from './Pieces'
+import PieceType from './PieceType'
 import Rules from './Rules'
 
 const size = 8;
@@ -34,15 +35,19 @@ function Board(){
             const newX = Math.floor((e.clientX - boardRef.current.offsetLeft ) / cellSize);
             const newY = Math.abs(Math.floor((e.clientY - boardRef.current.offsetTop) / cellSize));
             const activePiece = pieces.find(piece => piece.x === currX && piece.y === currY);
+
             if (activePiece){
                 const move = rules.isValidMove(currX, currY, newX, newY, activePiece.type, activePiece.player, pieces)
+                
                 if (move){
                     const updatedPieces = pieces.reduce((results, piece) => {
-                        if (piece.x === activePiece.x && piece.y === activePiece.y){
+                        if (piece.x === currX && piece.y === currY){
                             piece.x = newX;
                             piece.y = newY;
                             results.push(piece);
                         } else if (!(piece.x === newX && piece.y === newY)){
+                            if (piece.type === PieceType.PAWN){
+                            }
                             results.push(piece);
                         }
                         return results;

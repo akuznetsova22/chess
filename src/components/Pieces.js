@@ -12,7 +12,7 @@ for (let i = 0; i < size; i++){
         x: i,
         y: 6,
         type: PieceType.PAWN,
-        player: Player.WHITE
+        player: Player.WHITE,
     });
     pieces.push({
         image: 'images/bp.png',

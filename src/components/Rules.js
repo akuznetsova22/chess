@@ -21,17 +21,15 @@ class Rules {
     cellIsTakenByEnemy(x,y,currBoard, player){
         const cellFill = currBoard.find (piece => piece.x === x && piece.y === y);
         if (!cellFill){
-            console.log('There is no enemy')
             return false
         }
         else if (cellFill.player === this.getEnemy(player)){
-            console.log('there is an enemy!')
             return true;
         }
-        console.log('There is no enemy')
         return false;
 
     }
+   
     isValidMove(prevX, prevY, curX, curY, type, player, currBoard){
       
          //pawns move rules
@@ -59,15 +57,12 @@ class Rules {
             }  
             // attacking the opponent
             else if (curX - prevX === -1 && curY - prevY === difference) {
-                console.log(this.cellIsTakenByEnemy(curX,curY,currBoard,player))
                 if (this.cellIsTakenByEnemy(curX,curY,currBoard,player)){
-                    console.log('Enemy on the left');
                     return true;
                 }
             }
             else if (curX - prevX === 1 && curY - prevY === difference) {
                 if (this.cellIsTakenByEnemy(curX,curY,currBoard,player)){
-                    console.log('Enemy on the right');
                     return true;
                 } 
             }
