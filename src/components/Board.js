@@ -6,10 +6,9 @@ import Rules from './Rules'
 
 const size = 8;
 const cellSize = 60;
-
 const piecesLib = Pieces();
 
-function Board(props){
+function Board(){
     const [pieces, setPieces] = useState(piecesLib);
     const [currPiece, setCurrPiece] = useState(null)
     const [currX, setCurrX] = useState(0);
@@ -18,6 +17,7 @@ function Board(props){
     const boardRef = useRef(null);
 
     function grab(e){
+        //picks up peace from the board
         if (e.target.classList.contains('cellImage') && boardRef.current){
             const newX = Math.floor((e.clientX - boardRef.current.offsetLeft) / cellSize);
             const newY = Math.abs(Math.floor((e.clientY - boardRef.current.offsetTop) / cellSize));
@@ -33,28 +33,29 @@ function Board(props){
         if(currPiece && boardRef.current){
             const newX = Math.floor((e.clientX - boardRef.current.offsetLeft ) / cellSize);
             const newY = Math.abs(Math.floor((e.clientY - boardRef.current.offsetTop) / cellSize));
-            setPieces((newPieces) => {
-                const pieces = newPieces.map((piece) => {
-                    if (piece.x === currX && piece.y === currY){
-                        console.log(rules.isValidMove(currX, currY, newX, newY, piece.type, piece.player)) 
-                        console.log(piece)                    
-                        if (rules.isValidMove(currX, currY, newX, newY, piece.type, piece.player)){
+            const activePiece = pieces.find(piece => piece.x === currX && piece.y === currY);
+            if (activePiece){
+                const move = rules.isValidMove(currX, currY, newX, newY, activePiece.type, activePiece.player, pieces)
+                if (move){
+                    const updatedPieces = pieces.reduce((results, piece) => {
+                        if (piece.x === activePiece.x && piece.y === activePiece.y){
                             piece.x = newX;
                             piece.y = newY;
-                        } else {
-                            currPiece.style.position = 'relative';
-                            currPiece.style.removeProperty('top');
-                            currPiece.style.removeProperty('left');
+                            results.push(piece);
+                        } else if (!(piece.x === newX && piece.y === newY)){
+                            results.push(piece);
                         }
-                    };
-                    
-                    return piece;
-                });
-                return pieces;
-
-            });
-
-            setCurrPiece(null)
+                        return results;
+                    },[]);
+                    setPieces(updatedPieces);
+                }
+                else {
+                    currPiece.style.position = 'relative';
+                    currPiece.style.removeProperty('top');
+                    currPiece.style.removeProperty('left');
+            }
+        }
+            setCurrPiece(null);
         }
     }
     function movePiece(e){
@@ -78,6 +79,7 @@ function Board(props){
             } else { currPiece.style.top = `${e.clientY - cellSize/2}px`}
         }
     }
+    //fill the chessboard with pieces
     let board = [];
     for (let j = 0; j < size; j++){
         for (let i = 0; i < size; i++){

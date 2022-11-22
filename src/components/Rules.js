@@ -2,14 +2,73 @@ import PieceType from "./PieceType";
 import Player from "./Player";
 
 class Rules {
-    isValidMove(prevX, prevY, curX, curY, type, player){
-        //pawns move
+    //checks whether cell is taken by any piece
+    cellIsFree(x, y, currBoard){
+        const cellFill = currBoard.find (piece => piece.x === x && piece.y === y);
+        return cellFill;
+    }
+    //gets the opposite player color
+    getEnemy(player){
+        let enemy;
+        if (player === Player.WHITE){
+            enemy = Player.BLACK;
+        } else {
+            enemy = Player.WHITE
+        }
+        return enemy;
+    }
+    //checks whether opponent piece is taking the cell
+    cellIsTakenByEnemy(x,y,currBoard, player){
+        const cellFill = currBoard.find (piece => piece.x === x && piece.y === y);
+        if (!cellFill){
+            console.log('There is no enemy')
+            return false
+        }
+        else if (cellFill.player === this.getEnemy(player)){
+            console.log('there is an enemy!')
+            return true;
+        }
+        console.log('There is no enemy')
+        return false;
+
+    }
+    isValidMove(prevX, prevY, curX, curY, type, player, currBoard){
+      
+         //pawns move rules
         if (type === PieceType.PAWN){
-            if (player === Player.WHITE){
-                if (prevY === 6){
-                    if (prevX === curX && (prevY-1 === curY || prevY - 2 === curY)){
+            //initiating supplement docuemnts based on the current player
+            let initialRow;
+            let difference;
+            if (player === Player.WHITE) {
+                initialRow = 6;
+                difference = -1
+            } else {
+                initialRow = 1;
+                difference = 1;
+            } 
+            //allows first move to be 1 or 2 cells ahead
+            if (prevY === initialRow && prevX === curX && curY - prevY === 2 * difference ){
+                if (!this.cellIsFree(curX,curY, currBoard) && !this.cellIsFree(curX,curY - difference, currBoard)){
+                    return true;
+                }
+            }
+            else if (prevX === curX && curY - prevY === difference){
+                if (!this.cellIsFree(curX,curY,currBoard)){
                         return true;
                     }
+            }  
+            // attacking the opponent
+            else if (curX - prevX === -1 && curY - prevY === difference) {
+                console.log(this.cellIsTakenByEnemy(curX,curY,currBoard,player))
+                if (this.cellIsTakenByEnemy(curX,curY,currBoard,player)){
+                    console.log('Enemy on the left');
+                    return true;
+                }
+            }
+            else if (curX - prevX === 1 && curY - prevY === difference) {
+                if (this.cellIsTakenByEnemy(curX,curY,currBoard,player)){
+                    console.log('Enemy on the right');
+                    return true;
                 } 
             }
         } 
