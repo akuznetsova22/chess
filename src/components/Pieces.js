@@ -62,7 +62,7 @@ pieces.push({
     figureName: 'white knight',
     x: 1,
     y: 7,
-    type: PieceType.ROOK,
+    type: PieceType.KNIGHT,
     player: Player.WHITE
 })
 pieces.push({
